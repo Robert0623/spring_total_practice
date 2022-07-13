@@ -102,3 +102,5 @@ loginForm.jsp를 복사해서 이름을 바꾸거나, 새로 JSP를 만들어도
 3. remove메서드로 board.jsp에서 삭제버튼을 누르면 원래 페이지로 오도록 - rattr사용시 오류 발생. 수정 예정.
 - boardList.jsp - 자바스크립트로 Controller의 msg를 받아서 alert로 띄우게 작성
 - board.jsp - jQuery로 목록, 삭제버튼 누를 시 원래 페이지로 이동하도록 작성
+
+## Board - 쓰기, 수정 구현
