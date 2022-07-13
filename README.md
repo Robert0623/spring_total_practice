@@ -74,3 +74,13 @@ loginForm.jsp를 복사해서 이름을 바꾸거나, 새로 JSP를 만들어도
 - loginForm.jsp - HTML, CSS 수정
 - User - 주석 추가
 - UserDao, UserDaoImpl - CRUD 작업 쿼리문을 jdbc로 작성
+
+### Board - DB테이블, DTO, Mapper, DAO 작성 
+- root-context.xml - mapperLocations 주석 해제
+- mybatis-config.xml - typeAlias 주석 해제
+- DB에 board 테이블 생성
+- BoardDto 작성 - up_date 제외, 생성자는 title, content, writer, equals&hashCode는 bno, title, content, writer
+- boardMapper.xml - SQL 작성
+- BoardDaoImpl작성 후 BoardDao 인터페이스 생성
+- BoardDaoImplTest - select 테스트 코드 작성
+
