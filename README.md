@@ -84,3 +84,7 @@ loginForm.jsp를 복사해서 이름을 바꾸거나, 새로 JSP를 만들어도
 - BoardDaoImpl작성 후 BoardDao 인터페이스 생성
 - BoardDaoImplTest - select 테스트 코드 작성
 
+### 페이징
+- PageHandler - DTO 작성
+- PageHandlerTest - 테스트 코드 작성
+
