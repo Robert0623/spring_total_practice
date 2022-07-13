@@ -1,5 +1,8 @@
 package com.myportfolio.web.controller;
 
+import com.myportfolio.web.dao.UserDao;
+import com.myportfolio.web.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +17,9 @@ import java.net.URLEncoder;
 @Controller
 @RequestMapping("/login")
 public class LoginController {
+    @Autowired
+    UserDao userDao;
+
     @GetMapping("/login")
     public String loginForm() {
         return "loginForm";
@@ -43,13 +49,13 @@ public class LoginController {
 
         //====아이디 체크 내용====
         //rememberId가 true면
-        if(rememberId) {
+        if (rememberId) {
             //1) 쿠키를 생성
             Cookie cookie = new Cookie("id", id);
             //2) 응답에 저장
             response.addCookie(cookie);
 
-        //rememberId가 false면
+            //rememberId가 false면
         } else {
             //쿠키를 삭제해서 응답에 추가
             Cookie cookie = new Cookie("id", id);
@@ -57,13 +63,23 @@ public class LoginController {
             response.addCookie(cookie);
         }
         //3) 홈 또는 toURL로 이동
-        toURL = toURL==null || toURL.equals("") ? "/" : toURL;
-        return "redirect:"+toURL;
+        toURL = toURL == null || toURL.equals("") ? "/" : toURL;
+        return "redirect:" + toURL;
     }
 
 
     private boolean loginCheck(String id, String pwd) {
-        return "asdf".equals(id) && "1234".equals(pwd);
+        User user = null;
+
+        try {
+            user = userDao.selectUser(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return user != null && user.getPwd().equals(pwd);
+//        return "asdf".equals(id) && "1234".equals(pwd);
     }
 }
 

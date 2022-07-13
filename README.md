@@ -67,3 +67,10 @@ loginForm.jsp를 복사해서 이름을 바꾸거나, 새로 JSP를 만들어도
 4. 해당 링크 또한 로그인 또는 로그아웃되도록 작업.
 
 - board.jsp - 모든 링크는 c:url태그로 작성.
+
+## 07.13
+### 로그인, User(dto) 1차 수정
+- LoginController - userDao를 주입받도록 하고, loginCheck를 수정
+- loginForm.jsp - HTML, CSS 수정
+- User - 주석 추가
+- UserDao, UserDaoImpl - CRUD 작업 쿼리문을 jdbc로 작성

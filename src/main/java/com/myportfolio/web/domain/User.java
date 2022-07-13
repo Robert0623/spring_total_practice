@@ -36,6 +36,7 @@ public class User {
         return Objects.equals(id, user.id) && Objects.equals(pwd, user.pwd) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(birth, user.birth) && Objects.equals(sns, user.sns);
     }
 
+    //hashCode에 reg_date는 안넣음.
     @Override
     public int hashCode() {
         return Objects.hash(id, pwd, name, email, birth, sns);
