@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,42 @@ import java.util.Map;
 public class BoardController {
     @Autowired
     BoardService boardService;
+
+    @PostMapping("/remove")
+    public String remove(Integer bno, Integer page, Integer pageSize, HttpSession session, RedirectAttributes rattr) {
+        String writer = (String) session.getAttribute("id");
+        String msg = "DEL_OK";
+
+        try {
+            int rowCnt = boardService.remove(bno, writer);
+
+            if(rowCnt!=1)
+                throw new Exception("board remove error");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            msg = "DEL_ERR";
+        }
+        rattr.addFlashAttribute("page", page);
+        rattr.addFlashAttribute("pageSize", pageSize);
+        rattr.addFlashAttribute("msg", msg);
+
+        return "redirect:/board/list";
+    }
+
+    @GetMapping("/read")
+    public String read(Integer bno, Integer page, Integer pageSize, Model m) {
+        try {
+            BoardDto boardDto = boardService.read(bno);
+//            m.addAttribute("boardDto", boardDto); //아래 문장과 동일
+            m.addAttribute(boardDto);
+            m.addAttribute("page", page);
+            m.addAttribute("pageSize", pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "board";
+    }
 
     @GetMapping("/list")
     public String list(Integer page, Integer pageSize, Model m, HttpServletRequest request) {
@@ -42,6 +80,8 @@ public class BoardController {
             List<BoardDto> list = boardService.getPage(map);
             m.addAttribute("list", list);
             m.addAttribute("ph", pageHandler);
+            m.addAttribute("page", page);
+            m.addAttribute("pageSize", pageSize);
         } catch (Exception e) {
             e.printStackTrace();
         }

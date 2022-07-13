@@ -94,3 +94,11 @@ loginForm.jsp를 복사해서 이름을 바꾸거나, 새로 JSP를 만들어도
 - BoardService, BoardServiceImpl - Business Logic 작성
 - BoardController - 페이지 작업 추가 - list(offset, pageSize), ph(페이지 정보)를 Model로 boardList로 보냄. 
 - boardList.jsp - 표를 추가해서 리스트를 표시. 하단에 페이지 추가.
+
+## Board - 읽기, 삭제 구현
+- BoardController 
+1. list메서드로 boardList.jsp로 갈 때 page, pageSize를 받도록 추가 - board에서 목록버튼, 삭제버튼 누를 시 원래 페이지로 가도록
+2. read메서드로 title의 a태그를 클릭해서 board.jsp로 갈 때 pgae, pageSize를 가지고 가도록 작성 - 가지고 가야 다시 돌아올 때 해당 페이지로 올 수 있음
+3. remove메서드로 board.jsp에서 삭제버튼을 누르면 원래 페이지로 오도록 - rattr사용시 오류 발생. 수정 예정.
+- boardList.jsp - 자바스크립트로 Controller의 msg를 받아서 alert로 띄우게 작성
+- board.jsp - jQuery로 목록, 삭제버튼 누를 시 원래 페이지로 이동하도록 작성
