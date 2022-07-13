@@ -3,6 +3,7 @@ package com.myportfolio.web.dao;
 import com.myportfolio.web.domain.BoardDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BoardDao {
     int count() throws Exception;
@@ -20,4 +21,6 @@ public interface BoardDao {
     int deleteAll() throws Exception;
 
     int increaseViewCnt(Integer bno) throws Exception;
+
+    List<BoardDto> selectPage(Map map) throws Exception;
 }

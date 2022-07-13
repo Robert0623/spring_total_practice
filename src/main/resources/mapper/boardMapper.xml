@@ -48,6 +48,13 @@
         WHERE bno = #{bno}
     </update>
 
-    <!-- 빠진 것 : selectFromBoard, selectPage, updateCommentCnt -->
+    <select id="selectPage" parameterType="map" resultType="BoardDto">
+        SELECT bno, title, content, writer, view_cnt, comment_cnt, reg_date
+        FROM board
+        ORDER BY reg_date desc, bno desc
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <!-- 빠진 것 : selectFromBoard, updateCommentCnt -->
 
 </mapper>

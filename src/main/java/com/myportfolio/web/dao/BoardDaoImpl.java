@@ -51,5 +51,11 @@ public class BoardDaoImpl implements BoardDao {
     public int increaseViewCnt(Integer bno) throws Exception {
         return session.update(namespace + "increaseViewCnt", bno);
     }
-    //selectPage, searchResultCnt, searchSelectPage 작성 해야 함.
+
+    @Override
+    public List<BoardDto> selectPage(Map map) throws Exception {
+        return session.selectList(namespace + "selectPage", map);
+    }
+
+    //searchResultCnt, searchSelectPage 작성 해야 함.
 }

@@ -85,6 +85,12 @@ loginForm.jsp를 복사해서 이름을 바꾸거나, 새로 JSP를 만들어도
 - BoardDaoImplTest - select 테스트 코드 작성
 
 ### 페이징
-- PageHandler - DTO 작성
+- PageHandler - 작성
 - PageHandlerTest - 테스트 코드 작성
 
+## Board - 페이지 추가, Service 작성
+- boardMapper.xml - selectPage 추가 - 페이지 사용
+- BoardDao, BoardDaoImpl, BoardDaoImplTest - selectPage 추가 및 CRUD 테스트
+- BoardService, BoardServiceImpl - Business Logic 작성
+- BoardController - 페이지 작업 추가 - list(offset, pageSize), ph(페이지 정보)를 Model로 boardList로 보냄. 
+- boardList.jsp - 표를 추가해서 리스트를 표시. 하단에 페이지 추가.
