@@ -28,4 +28,42 @@ loginForm.jsp를 복사해서 이름을 바꾸거나, 새로 JSP를 만들어도
 새로 프로젝트를 만드니 Artifact도 web:war, web:war exploded 2개만 보이고 정상 작동 함.
 
 ### 구현
-- 회원가입, 로그인
+- 회원가입, 로그인 구현
+- RegisterController
+1. @GetMapping 작성
+2. @PostMapping - Validator를 사용해서 아이디 길이가 5~12가 아니거나, id또는 pwd가 공백이면 다시 회원가입으로 이동.
+
+- BoardController
+1. @GetMapping - 로그인체크 - session을 얻어서, 세션에 id가 있는지 확인.
+2. 로그인 체크를 통과하면(세션에 id가 있으면), 게시판으로 이동하게 하고,
+3. 통과 못하면(세션에 id가 없으면), URL재작성으로 URL 정보인 toURL을 가지고 로그인 화면으로 이동하도록 작성.
+
+- LoginController
+1. @GetMapping - 로그인 - 로그인 화면으로 이동
+2. @GetMapping - 로그아웃 - 세션을 종료하고, 홈으로 이동
+3. @PostMapping - 로그인체크로 id, pwd를 확인해서,
+4. 일치하지 않으면 일치하지않는다는 메세지를 인코딩해서 URL재작성으로 뷰로 보내고,
+5. 일치하면 세션에 id를 저장하고, 쿠키를 작업.
+6. 로그인화면에 아이디 기억(rememberId)가 체크 됐으면(true면) 쿠키를 생성해서 응답에 추가.
+7. 아이디 기억(rememberId)이 false면 쿠키를 삭제해서 응답에 추가.
+8. 그리고 게시판에서 로그인화면으로 진입한 경우를 위해 toURL을 확인 후, toURL 또는 홈으로 리다이렉트.
+
+- registerForm.jsp
+1. prefix="form"을 임포트 및 form:form태그를 사용해서 에러메세지를 출력하도록 수정
+2. 뷰에서도 자바스크립트로 id, pwd 길이를 검증.
+
+- registerInfo.jsp - 회원가입 후 정보 확인
+- loginForm.jsp  
+1. 세션을 시작하지 않도록 임포트 하고,
+2. 링크가 붙은 곳에 c:url태그를 사용해서 링크를 작성.
+3. board에서 전달받은 toURL을 input의 hidden타입으로 받아서 post로 LoginController로 전송.
+4. 아이디 기억이 체크되어 있으면 checked를 input타입 checkbox에 넣고, 없으면 빈 문자열을 넣도록 작업.
+5. 자바스크립트로 id 또는 pwd의 길이가 0이면, 입력 해달라는 메세지 출력. 
+
+- index.jsp
+1. 세션을 시작하지 않도록 임포트 하고,
+2. 세션을 시작하지않고 세션에 id가 있는지 확인해서, 있으면 id를 얻어서,
+3. navibar에 로그인 상태일 때는 id가 나오도록 하고, 로그아웃 상태일 때는 Login이 나오도록 작업.
+4. 해당 링크 또한 로그인 또는 로그아웃되도록 작업.
+
+- board.jsp - 모든 링크는 c:url태그로 작성.

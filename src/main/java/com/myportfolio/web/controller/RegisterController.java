@@ -36,7 +36,7 @@ public class RegisterController {
 
     //forward 실습을 위해 @GetMapping을 @RequestMaping으로 바꿔놓음
     //다시 @GetMapping으로 바꿔야 함.
-    @RequestMapping("/add")
+    @GetMapping("/add")
     public String register() {
         return "registerForm";
     }
