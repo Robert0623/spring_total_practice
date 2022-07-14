@@ -130,4 +130,4 @@ loginForm.jsp를 복사해서 이름을 바꾸거나, 새로 JSP를 만들어도
 ### 수정 및 추가 할 것
 - User를 계층별로 나눠서 MyBatis를 사용하도록 수정
 - GlobalValidator말고 UserValidator를 사용하도록 수정
-- 댓글 기능 추가ㅡ
+- 댓글 기능 추가
