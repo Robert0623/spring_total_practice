@@ -2,6 +2,7 @@ package com.myportfolio.web.controller;
 
 import com.myportfolio.web.domain.BoardDto;
 import com.myportfolio.web.domain.PageHandler;
+import com.myportfolio.web.domain.SearchCondition;
 import com.myportfolio.web.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -114,27 +115,21 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public String list(Integer page, Integer pageSize, Model m, HttpServletRequest request) {
+    public String list(SearchCondition sc, Model m, HttpServletRequest request) {
         if(!loginCheck(request))
             return "redirect:/login/login?toURL="+request.getRequestURL(); //로그인을 안했으면, 로그인 페이지로 이동
 
-        if(page==null) page = 1;
-        if(pageSize==null) pageSize = 10;
-
         try {
 
-            int totalCnt = boardService.getCount();
-            PageHandler pageHandler = new PageHandler(totalCnt, page, pageSize);
+            int totalCnt = boardService.getSearchResultCnt(sc);
+            m.addAttribute("totalCnt", totalCnt);
 
-            Map map = new HashMap();
-            map.put("offset", (page-1)*pageSize);
-            map.put("pageSize", pageSize);
+            PageHandler pageHandler = new PageHandler(totalCnt, sc);
 
-            List<BoardDto> list = boardService.getPage(map);
+            List<BoardDto> list = boardService.getSearchResultPage(sc);
             m.addAttribute("list", list);
             m.addAttribute("ph", pageHandler);
-            m.addAttribute("page", page);
-            m.addAttribute("pageSize", pageSize);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

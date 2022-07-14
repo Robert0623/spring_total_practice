@@ -112,3 +112,15 @@ loginForm.jsp를 복사해서 이름을 바꾸거나, 새로 JSP를 만들어도
 1. "mode"="new"를 전달받으면 게시물 글쓰기로 바뀌고 title, content를 수정할 수 있도록 수정.
 2. 글쓰기 버튼을 누르면 글이 등록되도록 작성
 3. 수정버튼을 누르면 버튼 이름을 등록으로, 게시물 수정으로 바뀌도록 하고, readonly를 태그에서 없애도록 작성.
+
+## Board - 검색 기능 구현
+- board.jsp, boardList.jsp - HTML, CSS 수정, ```<c:out>태그로 수정```
+- SearchCondition - 검색 조건, 쿼리스트링 작업 - page, pageSize, offset, keyword, option
+- PageHandler - page, pageSize, offset, keyword, option을 SearchCondition에 넣고, SearchCondition을 사용하도록 수정
+- PageHandlerTest - 주석 처리
+- mybatis-config.xml - typeAlias 추가
+- boardMapper.xml - keyword, option으로 searchSelectPage, searchResultCnt 추가
+- BoardDao, BoardDaoImpl, BoardDaoImplTest - searchSelectPage, searchResultCnt 작성 및 테스트
+- BoardService, BoardServiceImpl - getSearchResultPage, getSearchResultCnt 추가
+- BoardController - list메서드에 SearchCondition을 쓰도록 수정
+- 

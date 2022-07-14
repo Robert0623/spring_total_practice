@@ -1,6 +1,7 @@
 package com.myportfolio.web.service;
 
 import com.myportfolio.web.domain.BoardDto;
+import com.myportfolio.web.domain.SearchCondition;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,6 @@ public interface BoardService {
 
     int write(BoardDto boardDto) throws Exception;
 
-    //다시 보기 - 뷰카운트 증가해켜야 함
     BoardDto read(Integer bno) throws Exception;
 
     int modify(BoardDto boardDto) throws Exception;
@@ -24,4 +24,8 @@ public interface BoardService {
     int getViewCnt(Integer bno) throws Exception;
 
     List<BoardDto> getPage(Map map) throws Exception;
-}
+
+    List<BoardDto> getSearchResultPage(SearchCondition sc) throws Exception;
+
+    int getSearchResultCnt(SearchCondition sc) throws Exception;
+    }

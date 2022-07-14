@@ -5,5 +5,6 @@
 <configuration>
     <typeAliases>
         <typeAlias alias="BoardDto" type="com.myportfolio.web.domain.BoardDto"/>
+        <typeAlias alias="SearchCondition" type="com.myportfolio.web.domain.SearchCondition"/>
     </typeAliases>
 </configuration>
