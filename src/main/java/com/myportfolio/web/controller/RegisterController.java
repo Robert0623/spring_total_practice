@@ -1,6 +1,8 @@
 package com.myportfolio.web.controller;
 
+import com.myportfolio.web.dao.UserDao;
 import com.myportfolio.web.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,10 @@ import java.util.Date;
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
+    @Autowired
+    UserDao userDao;
+    private final int FAIL = 0;
+
     @InitBinder
     public void toDate(WebDataBinder binder) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -46,8 +52,12 @@ public class RegisterController {
 //        userValidator.validate(user, result); //BindingResult는 Errors의 자손
 
         //User객체를 검증한 결과 에러가 있으면, registerForm을 이용해서 에러를 보여줘야함.
-        if(result.hasErrors()) {
-            return "registerForm";
+        //에러가 없으면 DB에 신규회원 정보를 저장
+        if(!result.hasErrors()) {
+            int rowCnt = userDao.insertUser(user);
+
+            if(rowCnt!=FAIL)
+                return "registerInfo";
         }
 
         //아래 유효성 검사를 UserValidator 또는 GlobalValidator로 외부에서 처리.
@@ -68,12 +78,7 @@ public class RegisterController {
 ////            return "redirect:/register/add";
 //            return "forward:/register/add";
 //        }
-
-        //2. DB에 신규회원 정보를 저장
-
-       return "registerInfo";
-
-
+        return "registerForm";
     }
 
     private boolean isValid(User user) {
