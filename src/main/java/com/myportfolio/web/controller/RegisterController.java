@@ -1,13 +1,10 @@
 package com.myportfolio.web.controller;
 
 import com.myportfolio.web.domain.User;
-import com.myportfolio.web.domain.UserValidator;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.beans.propertyeditors.StringArrayPropertyEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -15,10 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 @RequestMapping("/register")
@@ -26,16 +21,16 @@ public class RegisterController {
     @InitBinder
     public void toDate(WebDataBinder binder) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df2 = new SimpleDateFormat("yyyy/MM/dd");
         binder.registerCustomEditor(Date.class, new CustomDateEditor(df, false));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(df2, false));
 //        binder.registerCustomEditor(String[].class, new StringArrayPropertyEditor("#"));
 //        binder.setValidator(new UserValidator()); //UserValidator를 WebDataBinder의 로컬 validator로 등록.
 //        binder.addValidators(new UserValidator());
 //        List<Validator> validatorList = binder.getValidators();
 //        System.out.println("validatorList = " + validatorList);
     }
-
-    //forward 실습을 위해 @GetMapping을 @RequestMaping으로 바꿔놓음
-    //다시 @GetMapping으로 바꿔야 함.
+    
     @GetMapping("/add")
     public String register() {
         return "registerForm";
@@ -55,7 +50,7 @@ public class RegisterController {
             return "registerForm";
         }
 
-        //아래 유효성 검사를 UserValidator로 처리.
+        //아래 유효성 검사를 UserValidator 또는 GlobalValidator로 외부에서 처리.
 //        //1. 유효성 검사
 //        if(!isValid(user)) {
 //            //브라우저에서는 인코딩이 자동으로 변환되지만,

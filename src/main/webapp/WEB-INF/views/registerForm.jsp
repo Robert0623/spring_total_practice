@@ -2,13 +2,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page import="java.net.URLDecoder" %>
-
+<%@ page session="false"%>
+<c:set var="loginId" value="${pageContext.request.getSession(false)==null ? '' : pageContext.request.session.getAttribute('id')}"/>
+<c:set var="loginOutLink" value="${loginId=='' ? '/login/login' : '/login/logout'}"/>
+<c:set var="loginOut" value="${loginId=='' ? 'Login' : 'ID='+=loginId}"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="<c:url value='/css/menu.css'/>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
     <style>
         * { box-sizing:border-box; }
@@ -33,7 +37,7 @@
             border : 1px solid rgb(89,117,196);
             border-radius:5px;
             padding: 0 10px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         label {
             width:300px;
@@ -64,13 +68,30 @@
             color:red;
             margin-bottom: 20px;
         }
+        .msg2 {
+            height: 10px;
+            text-align:center;
+            font-size:16px;
+            color:red;
+            margin-bottom: 10px;
+        }
         .sns-chk {
             margin-top : 5px;
         }
     </style>
-    <title>Register</title>
+    <title>SpringProject</title>
 </head>
 <body>
+<div id="menu">
+    <ul>
+        <li id="logo">SpringProject</li>
+        <li><a href="<c:url value='/'/>">Home</a></li>
+        <li><a href="<c:url value='/board/list'/>">Board</a></li>
+        <li><a href="<c:url value='${loginOutLink}'/>">${loginOut}</a></li>
+        <li><a href="<c:url value='/register/add'/>">SignUp</a></li>
+        <li><a href=""><i class="fa fa-search"></i></a></li>
+    </ul>
+</div>
 <!-- onsubmit은 이벤트 등록.
     메서드는 POST고, submit을 누르면 formCheck(this)로 this(이 폼)를 체크하라는 뜻.
     formCheck(this)가 true이면 form 전송, false면 전송X.
@@ -83,8 +104,9 @@
     <div id="msg" class="msg"><form:errors path="id"/></div>
     <label for="">아이디</label>
     <input class="input-field" type="text" name="id" placeholder="8~12자리의 영대소문자와 숫자 조합">
+    <div id="msg" class="msg2"><form:errors path="pwd"/></div>
     <label for="">비밀번호</label>
-    <input class="input-field" type="text" name="pwd" placeholder="8~12자리의 영대소문자와 숫자 조합">
+    <input class="input-field" type="password" name="pwd" placeholder="8~12자리의 영대소문자와 숫자 조합">
     <label for="">이름</label>
     <input class="input-field" type="text" name="name" placeholder="홍길동">
     <label for="">이메일</label>
@@ -104,11 +126,11 @@
         var msg ='';
 
         <!-- id의 value의 length가 3미만이면 -->
-        if(frm.id.value.length<3) {
-            setMessage('id의 길이는 3이상이어야 합니다.', frm.id);
+        if(frm.id.value.length<5) {
+            setMessage('id의 길이는 5이상이어야 합니다.', frm.id);
             return false;
         }
-        //Validation 실습을 위해 주석처리 함.
+
         //검증은 자바스크립트, Validation 둘 다 해야 함!
         // if(frm.pwd.value.length<3) {
         //   setMessage('pwd의 길이는 3이상이어야 합니다.', frm.pwd);
