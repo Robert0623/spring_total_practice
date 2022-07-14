@@ -22,6 +22,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public int write(BoardDto boardDto) throws Exception {
         return boardDao.insert(boardDto);
+//        throw new Exception("test");
     }
     //다시 보기 - 뷰카운트 증가해켜야 함
     @Override

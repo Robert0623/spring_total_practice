@@ -104,3 +104,11 @@ loginForm.jsp를 복사해서 이름을 바꾸거나, 새로 JSP를 만들어도
 - board.jsp - jQuery로 목록, 삭제버튼 누를 시 원래 페이지로 이동하도록 작성
 
 ## Board - 쓰기, 수정 구현
+- boardMapper.xml - update의 조건에 writer 추가
+- BoardServiceImpl - 예외를 발생시켜서 write 테스트
+- BoardController - write(GET, POST), modify 추가
+- boardList.jsp - 글쓰기 버튼을 만들고, 버튼을 누르면 GET으로 요청하도록 작성, 글쓰기 등록 후 메세지 출력되도록 작성
+- board.jsp 
+1. "mode"="new"를 전달받으면 게시물 글쓰기로 바뀌고 title, content를 수정할 수 있도록 수정.
+2. 글쓰기 버튼을 누르면 글이 등록되도록 작성
+3. 수정버튼을 누르면 버튼 이름을 등록으로, 게시물 수정으로 바뀌도록 하고, readonly를 태그에서 없애도록 작성.

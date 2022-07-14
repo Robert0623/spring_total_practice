@@ -24,6 +24,59 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    @PostMapping("/modify")
+    public String modify(BoardDto boardDto, Integer page, Integer pageSize, Model m, HttpSession session, RedirectAttributes rattr) {
+        String writer = (String) session.getAttribute("id");
+        boardDto.setWriter(writer);
+        try {
+            int rowCnt = boardService.modify(boardDto);
+
+            if(rowCnt!=1)
+                throw new Exception("Modify Failed");
+
+            rattr.addAttribute("page", page);
+            rattr.addAttribute("pageSize", pageSize);
+            rattr.addFlashAttribute("msg", "MOD_OK");
+
+            return "redirect:/board/list";
+        } catch (Exception e) {
+            e.printStackTrace();
+            m.addAttribute(boardDto);
+            m.addAttribute("page", page);
+            m.addAttribute("pageSize", pageSize);
+            m.addAttribute("msg", "MOD_ERR");
+            return "board";
+        }
+    }
+
+    @PostMapping("/write")
+    public String write(BoardDto boardDto, Model m, HttpSession session, RedirectAttributes rattr) {
+        String writer = (String) session.getAttribute("id");
+        boardDto.setWriter(writer);
+        try {
+            int rowCnt = boardService.write(boardDto);
+
+            if(rowCnt!=1)
+                throw new Exception("Write Failed");
+
+            rattr.addFlashAttribute("msg", "WRT_OK");
+
+            return "redirect:/board/list";
+        } catch (Exception e) {
+            e.printStackTrace();
+            m.addAttribute("mode", "new");
+            m.addAttribute(boardDto);
+            m.addAttribute("msg", "WRT_ERR");
+            return "board";
+        }
+    }
+
+    @GetMapping("/write")
+    public String write(Model m) {
+        m.addAttribute("mode", "new");
+        return "board"; //읽기와 쓰기에 사용. 쓰기에 사용할 때는 mode=new
+    }
+
     @PostMapping("/remove")
     public String remove(Integer bno, Integer page, Integer pageSize, HttpSession session, RedirectAttributes rattr) {
         String writer = (String) session.getAttribute("id");
@@ -33,14 +86,14 @@ public class BoardController {
             int rowCnt = boardService.remove(bno, writer);
 
             if(rowCnt!=1)
-                throw new Exception("board remove error");
+                throw new Exception("Remove Failed");
 
         } catch (Exception e) {
             e.printStackTrace();
             msg = "DEL_ERR";
         }
-        rattr.addFlashAttribute("page", page);
-        rattr.addFlashAttribute("pageSize", pageSize);
+        rattr.addAttribute("page", page);
+        rattr.addAttribute("pageSize", pageSize);
         rattr.addFlashAttribute("msg", msg);
 
         return "redirect:/board/list";
